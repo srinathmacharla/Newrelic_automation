@@ -12,7 +12,7 @@ pipeline {
         stage('Execute Script') {
             steps {
                 dir('src/newrelic_typescript') {
-                    sh '/full/path/to/node main.js' // Replace '/full/path/to/node' with the actual path
+                    sh '/src/newrelic_typescript/node main.js' // Replace '/full/path/to/node' with the actual path
                 }
             }
         }
