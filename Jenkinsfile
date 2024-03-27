@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Checkout the repository from GitHub
                 checkout([$class: 'GitSCM', 
                           branches: [[name: '*/main']], 
                           userRemoteConfigs: [[url: 'https://github.com/srinathmacharla/Newrelic_dashboard.git']]])
@@ -11,11 +12,12 @@ pipeline {
         }
         stage('Execute Script') {
             steps {
+                // Navigate to the directory containing the main.js file
                 dir('src/newrelic_typescript') {
-                    sh '/src/newrelic_typescript/node main.js' // Replace '/full/path/to/node' with the actual path
+                    // Execute the main.js file using node
+                    sh 'node main.js'
                 }
             }
         }
     }
 }
-
