@@ -1,0 +1,22 @@
+{
+  "name": "tf-newrelic-poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "ts-node": "^10.9.2",
+    "undici-types": "^5.26.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.28",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.3"
+  }
+}

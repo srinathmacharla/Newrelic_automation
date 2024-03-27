@@ -1,0 +1,6 @@
+ServiceName: Example dashboard
+Componentlist:
+- componentName: SQS queues
+
+   
+

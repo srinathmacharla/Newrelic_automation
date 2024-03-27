@@ -1,0 +1,42 @@
+- name  : Average duration (seconds)
+  query : SELECT average(`aws.lambda.Duration.byFunction`) / 1000 FROM Metric SINCE 1 hour ago UNTIL 6 minutes ago TIMESERIES AUTO FACET `aws.lambda.resource`
+- name  : Invocations
+  query : SELECT sum(`aws.lambda.Invocations.byFunction`) FROM Metric SINCE 1 hour ago UNTIL 6 minutes ago TIMESERIES AUTO FACET `aws.lambda.resource`
+- name  : Throttles
+  query : SELECT sum(`aws.lambda.Throttles.byFunction`) FROM Metric SINCE 1 hour ago UNTIL 6 minutes ago TIMESERIES AUTO FACET `aws.lambda.resource`
+- name  : Errors
+  query : SELECT sum(`aws.lambda.Errors.byFunction`) FROM Metric SINCE 1 hour ago UNTIL 6 minutes ago TIMESERIES AUTO FACET `aws.lambda.resource`
+- name  : Concurrent executions
+  query : SELECT average(`aws.lambda.ConcurrentExecutions.byFunction`) FROM Metric FACET aws.region SINCE 1 hour ago UNTIL 6 minutes ago TIMESERIES AUTO
+- name  : Lambda functions
+  query :  SELECT count(*) FROM AwsLambdaInvocation FACET `provider.functionName`
+- name  : Total invocations
+  query : SELECT count(*) AS invocations FROM AwsLambdaInvocation
+- name  : Duration
+  query : SELECT percentile(duration, 50, 90, 99.9) AS milliseconds FROM AwsLambdaInvocation
+- name  : Invocations
+  query : SELECT count(*) FROM AwsLambdaInvocation FACET `provider.functionName` TIMESERIES auto
+- name  : Duration (ms)
+  query : SELECT max(duration) FROM AwsLambdaInvocation FACET `provider.functionName` TIMESERIES auto
+- name  : Cold starts
+  query : SELECT count(*) FROM AwsLambdaInvocation WHERE `aws.lambda.coldStart` IS true FACET `provider.functionName` TIMESERIES auto
+- name  : Error rate
+  query : SELECT percentage(count(*), WHERE error IS True) FROM AwsLambdaInvocation FACET `provider.functionName` TIMESERIES auto
+- name : Error types
+  query : SELECT count(*) FROM AwsLambdaInvocationError facet `error.class`
+- name : Error messages
+  query : SELECT count(*) FROM AwsLambdaInvocationError facet `error.message`
+- name : Requests
+  query : SELECT count(*) FROM AwsLambdaInvocation FACET `aws.requestId`
+- name : Invocation source
+  query : SELECT count(*) FROM AwsLambdaInvocation FACET `aws.lambda.eventSource.arn` TIMESERIES auto
+- name : External calls
+  query : SELECT count(*) FROM Span WHERE `aws.lambda.arn` IS NOT NULL FACET `http.url` TIMESERIES auto LIMIT 5
+- name : External call details
+  query : SELECT `http.url` AS target, duration FROM Span WHERE `aws.lambda.arn` IS NOT NULL AND `http.url` IS NOT NULL
+- name : Error stack traces
+  query : SELECT entityName, stackTrace as summary, `error.class`, `error.message` FROM AwsLambdaInvocationError
+
+
+
+

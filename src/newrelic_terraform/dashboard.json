@@ -1,0 +1,129 @@
+{
+  "name": "Example dashboard",
+  "description": null,
+  "permissions": "PUBLIC_READ_WRITE",
+  "pages": [
+    {
+      "name": "SQS queues",
+      "description": null,
+      "widgets": [
+        {
+          "title": "Sent/Received messages",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT sum(`provider.numberOfMessagesReceived.Sum`) AS `Received messages`, sum(`provider.numberOfMessagesSent.Sum`) AS `Sent messages` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            }
+          }
+        },
+        {
+          "title": "Approximate number of visible messages",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(`provider.approximateNumberOfMessagesVisible.Average`) AS `Available messages` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            }
+          }
+        },
+        {
+          "title": "Approximate age of oldest message",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(`provider.approximateAgeOfOldestMessage.Average`) AS `Age of oldest message (s)` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            }
+          }
+        },
+        {
+          "title": "Deleted messages",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT sum(`provider.numberOfMessagesDeleted.Sum`) AS `Deleted messages` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

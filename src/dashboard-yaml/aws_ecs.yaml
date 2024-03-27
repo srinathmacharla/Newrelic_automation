@@ -1,0 +1,13 @@
+- name : CPU (%)
+  query : SELECT average(`provider.cpuUtilization.Average`), min(`provider.cpuUtilization.Minimum`), max(`provider.cpuUtilization.Maximum`), sum(`provider.cpuUtilization.Sum`) FROM ComputeSample WHERE provider='${service.provider}' AND `entityGuid` = '${service.entityGuid}' TIMESERIES auto
+- name : Memory (%)
+  query : SELECT max(`provider.memoryUtilization.Maximum`) FROM ComputeSample WHERE provider='${service.provider}' AND `entityGuid` = '${service.entityGuid}' TIMESERIES auto
+- name : CPU utilization (%)
+  query : SELECT average(`aws.ecs.CPUUtilization.byService`) as 'CPU utilization (%)' FROM Metric WHERE `entity.guid` = '${service.entityGuid}' TIMESERIES auto
+- name : Memory utilization (%)
+  query : SELECT average(`aws.ecs.MemoryUtilization.byService`) as 'Memory utilization (%)' FROM Metric WHERE `entity.guid` = '${service.entityGuid}' TIMESERIES auto
+
+
+
+
+
