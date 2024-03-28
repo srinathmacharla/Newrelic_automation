@@ -16,17 +16,20 @@ pipeline {
         }
         stage('Install dependencies') {
             steps {
-                // Install project dependencies using npm
                 sh 'npm install'
             }
         }
         
         stage('Build TypeScript') {
             steps {
-                // Change directory to the TypeScript source directory
                 dir('src/newrelic_typescript') {
-                    // Build TypeScript files to JavaScript
                     sh 'node main.js'
+                }
+            }
+            steps {
+                dir('src/newrelic_terraform') {
+                    sh 'terraform init'
+                    sh 'terraform apply'
                 }
             }
         }
