@@ -25,13 +25,12 @@ pipeline {
                 dir('src/newrelic_typescript') {
                     sh 'node main.js'
                 }
-            }
-            steps {
                 dir('src/newrelic_terraform') {
                     sh 'terraform init'
                     sh 'terraform apply'
                 }
             }
         }
+
     }
 }
