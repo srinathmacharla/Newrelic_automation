@@ -30,7 +30,7 @@ pipeline {
         
         stage('build terraform') {
             steps {
-                dir('src/newrelic_terraform') {
+                dir('src/newrelic_terraform/main.tf') {
                   sh 'terraform init'
                 }
                 
