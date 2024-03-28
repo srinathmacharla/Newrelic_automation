@@ -21,7 +21,7 @@ pipeline {
             }
         }
         
-        stage('Build') {
+        stage('Build TypeScript') {
             steps {
                 // Change directory to the TypeScript source directory
                 dir('src/newrelic_typescript') {
@@ -30,7 +30,5 @@ pipeline {
                 }
             }
         }
-
-     
     }
 }
