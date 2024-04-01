@@ -30,16 +30,16 @@ pipeline {
         
         stage('build terraform') {
             steps {
-                dir('src/newrelic_terraform') {
-                  sh 'terraform init'
+                // Add the directory containing Terraform executable to PATH
+                script {
+                    def tfHome = tool 'terraform'
+                    env.PATH = "${tfHome}:${env.PATH}"
                 }
-                
+                dir('src/newrelic_terraform') {
+                    sh 'terraform init'
+                }
             }
         }
 
     }
 }
-
-
-
-
