@@ -4,8 +4,6 @@ pipeline {
         nodejs '21.0.0'
         terraform 'terraform auto' 
     }
-
-
     stages {
 
         
@@ -17,11 +15,26 @@ pipeline {
             }
         }
         
+        stage('build terraform') {
+            steps {
+                dir('src/newrelic_terraform') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Dashboard plan') {
+            steps {
+                dir('src/newrelic_terraform') {
+                    sh 'terraform plan'
+                }
+            }
+        }
 
         stage('Dashboard apply') {
             steps {
                 dir('src/newrelic_terraform') {
-                    sh 'terraform apply -auto-approve'
+                    sh 'terraform apply'
                 }
             }
         }
