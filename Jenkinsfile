@@ -23,10 +23,18 @@ pipeline {
             }
         }
 
-        stage('Dashboard Creation') {
+        stage('Dashboard plan') {
             steps {
                 dir('src/newrelic_terraform') {
                     sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Dashboard apply') {
+            steps {
+                dir('src/newrelic_terraform') {
+                    sh 'terraform apply -auto-approve'
                 }
             }
         }
