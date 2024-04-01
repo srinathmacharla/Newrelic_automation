@@ -1,16 +1,16 @@
 pipeline {
     agent any
+    
     tools {
         nodejs '21.0.0'
         terraform 'terraform auto' 
     }
 
-        parameters {
+    parameters {
         file(name: 'file', description: 'Upload YAML file')
     }
     
     stages {
-
         stage('Checkout SCM') {
             steps {
                 checkout scm
@@ -20,12 +20,14 @@ pipeline {
         stage('Move File') {
             steps {
                 script {
-                    // Define the target directory
-                    def targetDir = "${WORKSPACE}/src/resources"
-                    
-                    
-                    // Move the uploaded file to the target directory
-                    sh "mv ${params.file} ${targetDir}"
+                    def uploadedFile = params.file
+                    if (uploadedFile != null) {
+                        def targetDir = "${WORKSPACE}/src/resources"
+                        sh "mkdir -p ${targetDir}"
+                        sh "mv ${uploadedFile} ${targetDir}"
+                    } else {
+                        error "No file uploaded"
+                    }
                 }
             }
         }
@@ -37,7 +39,6 @@ pipeline {
                 }
             }
         }
-        
 
         stage('Dashboard apply') {
             steps {
@@ -46,6 +47,5 @@ pipeline {
                 }
             }
         }
-
     }
 }
