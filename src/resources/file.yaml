@@ -1,5 +1,5 @@
-ServiceName: s3_buckets dashboard
+ServiceName: http flows dashboard
 Componentlist:
-- componentName: s3_buckets
+- componentName: http flows
 
   
