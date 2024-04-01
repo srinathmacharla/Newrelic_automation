@@ -1,12 +1,14 @@
 pipeline {
     agent any
     
+    // Define tools used in the pipeline
     tools {
         nodejs '21.0.0'
         terraform 'terraform auto' 
     }
 
     parameters {
+        // Define file parameter for YAML file upload
         file(name: 'file', description: 'Upload YAML file')
     }
     
@@ -20,20 +22,21 @@ pipeline {
         stage('Move File') {
             steps {
                 script {
-                    def uploadedFile = params.file
-                    if (uploadedFile != null) {
-                        def targetDir = "${WORKSPACE}/src/resources"
-                        sh "mkdir -p ${targetDir}"
-                        sh "mv ${uploadedFile} ${targetDir}"
-                    } else {
-                        error "No file uploaded"
-                    }
+                    // Define the target directory
+                    def targetDir = "${WORKSPACE}/src/resources"
+                    
+                    // Create the directory if it doesn't exist
+                    sh "mkdir -p ${targetDir}"
+                    
+                    // Move the uploaded file to the target directory
+                    sh "mv ${params.file} ${targetDir}"
                 }
             }
         }
         
         stage('Build TypeScript') {
             steps {
+                // Add your build steps here for TypeScript
                 dir('src/newrelic_typescript') {
                     sh 'node main.js'
                 }
@@ -42,6 +45,7 @@ pipeline {
 
         stage('Dashboard apply') {
             steps {
+                // Add your Terraform apply steps here
                 dir('src/newrelic_terraform') {
                     sh 'terraform apply -auto-approve'
                 }
@@ -49,8 +53,3 @@ pipeline {
         }
     }
 }
-
-
-
-
-
