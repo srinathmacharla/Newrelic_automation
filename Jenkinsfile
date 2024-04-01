@@ -5,9 +5,6 @@ pipeline {
         terraform 'terraform auto' 
     }
 
-        parameters {
-        file(name: 'file', description: 'Upload YAML file')
-    }
 
     stages {
 
