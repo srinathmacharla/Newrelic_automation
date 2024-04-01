@@ -1,5 +1,5 @@
-ServiceName: database dashboard
+ServiceName: s3_buckets dashboard
 Componentlist:
-- componentName: database
+- componentName: s3_buckets
 
   
