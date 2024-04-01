@@ -29,7 +29,7 @@ pipeline {
                     sh "mkdir -p ${targetDir}"
                     
                     // Move the uploaded file to the target directory
-                    sh "mv ${params.file} ${targetDir}"
+                    sh "mv ${env.file} ${targetDir}/file.yaml"
                 }
             }
         }
