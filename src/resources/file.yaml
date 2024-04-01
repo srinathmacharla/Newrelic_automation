@@ -1,1 +1,5 @@
+ServiceName: database dashboard
+Componentlist:
+- componentName: database
 
+  
