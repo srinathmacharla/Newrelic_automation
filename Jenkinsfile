@@ -5,6 +5,8 @@ pipeline {
         terraform 'terraform auto' 
     }
     stages {
+
+        
         stage('Build TypeScript') {
             steps {
                 dir('src/newrelic_typescript') {
@@ -12,16 +14,14 @@ pipeline {
                 }
             }
         }
-        
-        stage('Copy YAML File') {
+
+        stage('Dashboard apply') {
             steps {
-                script {
-                    def jenkinsWorkspace = env.WORKSPACE
-                    def sourceFilePath = "${jenkinsWorkspace}/file.yaml"
-                    def targetFilePath = "${jenkinsWorkspace}/newrelic/src/resources/file.yaml"
-                    sh "cp ${sourceFilePath} ${targetFilePath}"
+                dir('src/newrelic_terraform') {
+                    sh 'terraform apply'
                 }
             }
         }
+
     }
 }
