@@ -32,7 +32,7 @@ interface Dashboard {
 
 const dashboardPath = '../newrelic_terraform/dashboard.json';
 const yamlFolderPath = '../dashboard-yaml';
-const yamlPath = '/resources/file.yaml';
+const yamlPath = '../resources/file.yaml';
 const envPath = '../resources/env_variable.yaml'; 
 
 function replaceServiceAppNameInQueries(yamlData: any, envData: any): void {
