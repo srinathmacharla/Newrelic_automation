@@ -5,7 +5,7 @@ var yaml = require("js-yaml");
 var path = require("path");
 var dashboardPath = '../newrelic_terraform/dashboard.json';
 var yamlFolderPath = '../dashboard-yaml';
-var yamlPath = 'http://localhost:8080/job/newrelic';
+var yamlPath = '../resources/file.yaml';
 var envPath = '../resources/env_variable.yaml';
 function replaceServiceAppNameInQueries(yamlData, envData) {
     var regex = /\$\{service\.(\w+)\}/g;
