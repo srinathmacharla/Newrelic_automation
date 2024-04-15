@@ -18,7 +18,7 @@ pipeline {
         stage('Dashboard apply') {
             steps {
                 dir('src/newrelic_terraform') {
-                    sh 'terraform apply'
+                    sh 'terraform apply -auto-approve'
                 }
             }
         }
