@@ -1,9 +1,7 @@
 pipeline {
     agent any
     tools {
-        // Use a compatible Node.js version (e.g., LTS version)
-        nodejs '14.17.6'
-        // Specify the Terraform tool version
+        nodejs '21.0.0'
         terraform 'terraform auto' 
     }
     stages {
