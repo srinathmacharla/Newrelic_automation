@@ -15,18 +15,10 @@ pipeline {
             }
         }
 
-        stage('Dashboard init') {
-            steps {
-                dir('src/newrelic_terraform') {
-                    sh 'terraform init'
-                }
-            } 
-        }
-
         stage('Dashboard apply') {
             steps {
                 dir('src/newrelic_terraform') {
-                    sh 'terraform apply'
+                    sh 'terraform apply -auto-approve'
                 }
             } 
         }
