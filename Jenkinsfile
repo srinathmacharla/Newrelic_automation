@@ -10,7 +10,7 @@ pipeline {
         stage('Build TypeScript') {
             steps {
                 dir('src') {
-                    sh 'node main.js'
+                    sh 'node create-dashboards.js'
                 }
             }
         }
