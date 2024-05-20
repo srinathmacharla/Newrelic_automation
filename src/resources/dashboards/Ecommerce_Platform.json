@@ -1,0 +1,277 @@
+{
+  "name": "Ecommerce Platform",
+  "description": null,
+  "permissions": "PUBLIC_READ_WRITE",
+  "pages": [
+    {
+      "name": "aws lambda",
+      "description": null,
+      "widgets": [
+        {
+          "title": "Average duration (seconds)",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average('aws.lambda.Duration.byFunction') / 1000 FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' SINCE 1 hour ago TIMESERIES AUTO FACET tags.Application,entityName"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Invocations",
+          "layout": {
+            "column": 7,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT sum('aws.lambda.Invocations.byFunction') FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' SINCE 1 hour ago TIMESERIES AUTO FACET tags.Application,entityName"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Throttles",
+          "layout": {
+            "column": 7,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT sum('aws.lambda.Throttles.byFunction') FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' SINCE 1 hour ago TIMESERIES AUTO FACET tags.Application,entityName"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Errors",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT sum('aws.lambda.Errors.byFunction') FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' SINCE 1 hour ago UNTIL 6 minutes ago TIMESERIES AUTO FACET tags.Application,entityName"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HTTP Flows span",
+      "description": null,
+      "widgets": [
+        {
+          "title": "HTTP Throughput",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT rate(count(http.statusCode), 1 second) AS 'Calls/sec' FROM Span WHERE tags.Environment='preprod' AND tags.Workspace='default' FACET tags.Domain, http.method, http.statusText, http.statusCode TIMESERIES 1 minute SINCE 1 hour ago limit max"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "HTTP Response Times",
+          "layout": {
+            "column": 7,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(nr_exclusive_duration_millis / 100) AS 'RT (ms)' FROM Span WHERE tags.Environment='preprod' AND tags.Workspace='default' FACET tags.Domain, http.method, http.statusText, http.statusCode TIMESERIES 1 minute SINCE 1 hour ago limit max"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "HTTP Errors",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT http.method, http.statusText, http.statusCode, name FROM Span WHERE tags.Environment='preprod' AND tags.Workspace='default' AND http.statusCode != 200 SINCE 1 hour ago limit max"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+- name : Operations
+  query : SELECT sum(`aws.ebs.VolumeReadOps`) as 'Read', sum(`aws.ebs.VolumeWriteOps`) as 'Write' FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Average operation time (ms)
+  query : SELECT average(`aws.ebs.VolumeTotalReadTime`) / average(`aws.ebs.VolumeReadOps`) * 1000 as 'Read', average(`aws.ebs.VolumeTotalWriteTime`) / average(`aws.ebs.VolumeWriteOps`) * 1000 as 'Write' FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Idle time (%)
+  query : SELECT sum(`aws.ebs.VolumeIdleTime` / 300) * 100 as 'Idle time (%)' FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Queue length
+  query : SELECT average(`aws.ebs.VolumeQueueLength`) as 'Queue length' FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Average operation size (bytes)
+  query : SELECT average(`aws.ebs.VolumeReadBytes`) as 'Read', average(`aws.ebs.VolumeWriteBytes`) as 'Write' FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Burst balance (%)
+  query : SELECT min(`aws.ebs.BurstBalance`) as 'Burst balance (%)' FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+

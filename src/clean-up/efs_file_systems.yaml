@@ -1,0 +1,9 @@
+- name : I/O operations (bytes)
+  query : SELECT sum(`aws.efs.DataReadIOBytes`) as 'Read', sum(`aws.efs.DataWriteIOBytes`) as 'Write', sum(`aws.efs.MetadataIOBytes`) as 'Metadata' FROM Metric WHERE `entity.guid` = '${service.entityGuid}' TIMESERIES auto
+- name : Client connections
+  query : SELECT sum(`aws.efs.ClientConnections`) as 'Connections' FROM Metric WHERE `entity.guid` = '${service.entityGuid}' TIMESERIES auto
+- name : I/O limit (%)
+  query : SELECT max(`aws.efs.PercentIOLimit`) as 'I/O limit (%)' FROM Metric WHERE `entity.guid` = '${service.entityGuid}' TIMESERIES auto
+- name : Burst credit balance
+  query : SELECT average(`aws.efs.BurstCreditBalance`) as 'Burst balance' FROM Metric WHERE `entity.guid` = '${service.entityGuid}' TIMESERIES auto
+

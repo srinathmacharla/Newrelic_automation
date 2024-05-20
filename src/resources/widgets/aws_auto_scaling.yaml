@@ -1,0 +1,32 @@
+- name : Auto scaling group status
+  query : SELECT max(`aws.autoscaling.GroupDesiredCapacity`) as Desired, max(`aws.autoscaling.GroupMaxSize`) as Maximum, max(`aws.autoscaling.GroupMinSize`) as Minimum FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' UNTIL 10 minutes ago TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Instance lifecycle
+  query : SELECT max(`aws.autoscaling.GroupInServiceInstances`) as InService, max(`aws.autoscaling.GroupTerminatingInstances`) as Terminated, max(`aws.autoscaling.GroupPendingInstances`) as Pending, max(`aws.autoscaling.GroupStandbyInstances`) as StandBy FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' UNTIL 10 minutes ago TIMESERIES auto
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Instance lifecycle status
+  query : SELECT max(`aws.autoscaling.GroupInServiceInstances`) as InService, max(`aws.autoscaling.GroupTerminatingInstances`) as Terminated, max(`aws.autoscaling.GroupPendingInstances`) as Pending, max(`aws.autoscaling.GroupStandbyInstances`) as StandBy FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' since 10 minutes ago
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4
+- name : Instance status
+  query : SELECT count(aws.autoscaling.healthStatus) as Healthy FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' UNTIL 10 minutes ago TIMESERIES 5 minutes
+  visualization : viz.line
+  layout: 
+    column: 0
+    row: 0
+    width: 3
+    height: 4

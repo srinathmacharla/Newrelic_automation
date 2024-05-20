@@ -1,0 +1,32 @@
+- name  : Average duration (seconds)
+  query : SELECT average('aws.lambda.Duration.byFunction') / 1000 FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' SINCE 1 hour ago TIMESERIES AUTO FACET tags.Application,entityName
+  visualization : viz.line
+  layout: 
+    column: 1
+    row: 1
+    width: 6
+    height: 3
+- name  : Invocations
+  query : SELECT sum('aws.lambda.Invocations.byFunction') FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' SINCE 1 hour ago TIMESERIES AUTO FACET tags.Application,entityName
+  visualization : viz.line
+  layout: 
+    column: 7
+    row: 1
+    width: 6
+    height: 3
+- name  : Throttles
+  query : SELECT sum('aws.lambda.Throttles.byFunction') FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' SINCE 1 hour ago TIMESERIES AUTO FACET tags.Application,entityName
+  visualization : viz.line
+  layout: 
+    column: 7
+    row: 4
+    width: 6
+    height: 3
+- name  : Errors
+  query : SELECT sum('aws.lambda.Errors.byFunction') FROM Metric WHERE tags.Environment='${tags.environment}' AND tags.Workspace='${tags.workspace}' SINCE 1 hour ago UNTIL 6 minutes ago TIMESERIES AUTO FACET tags.Application,entityName
+  visualization : viz.line
+  layout: 
+    column: 1
+    row: 4
+    width: 6
+    height: 3
