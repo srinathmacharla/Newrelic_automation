@@ -16,7 +16,7 @@ pipeline {
         stage('Dashboard apply') {
             steps {
                 dir('src') {
-                    sh 'terraform apply'
+                    sh 'terraform apply -auto-approve'
                 }
             } 
         }
