@@ -12,8 +12,14 @@ pipeline {
                 }
             }
         }
-
-        stage('Dashboard apply') {
+    stage('Terraform init') {
+            steps {
+                dir('src') {
+                    sh 'terraform init'
+                }
+            } 
+        }
+    stage('Dashboard apply') {
             steps {
                 dir('src') {
                     sh 'terraform apply -auto-approve'
