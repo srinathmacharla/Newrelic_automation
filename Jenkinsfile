@@ -5,8 +5,6 @@ pipeline {
         terraform 'terraform auto' 
     }
     stages {
-
-        
         stage('Build TypeScript') {
             steps {
                 dir('src') {
