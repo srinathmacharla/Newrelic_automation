@@ -1,0 +1,743 @@
+{
+  "name": "Example_dashboard",
+  "description": null,
+  "permissions": "PUBLIC_READ_WRITE",
+  "pages": [
+    {
+      "name": "AWS ECS",
+      "description": null,
+      "widgets": [
+        {
+          "title": "Overall ECS Cluster CPU (%)",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(aws.ecs.CPUUtilization.byService) AS 'Cluster CPU Utilisation (%)' FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' facet aws.ecs.ClusterName SINCE 1 hour ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Overall ECS Cluster Memory (%)",
+          "layout": {
+            "column": 7,
+            "row": 1,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(aws.ecs.CPUUtilization.byService) AS 'Cluster CPU Utilisation (%)' FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' facet aws.ecs.ClusterName SINCE 1 hour ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "ECS Cluster CPU (%)",
+          "layout": {
+            "column": 7,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(aws.ecs.CPUUtilization.byService) AS 'Cluster CPU Utilisation (%)' FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' facet aws.ecs.ClusterName TIMESERIES 1 minute SINCE 1 hour ago limit max"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "ECS Cluster Memory (%)",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(aws.ecs.CPUUtilization.byService) AS 'Cluster CPU Utilisation (%)' FROM Metric WHERE tags.Environment='preprod' AND tags.Workspace='default' facet aws.ecs.ClusterName TIMESERIES 1 minute SINCE 1 hour ago limit max"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "HTTP Flows",
+      "description": null,
+      "widgets": [
+        {
+          "title": "Transactions Overview",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM Transaction SELECT count(*) as 'Total transactions', average(duration) as 'Average duration (s)', percentile(duration, 90) as 'Slowest 10%/duration' WHERE appName LIKE 'jd-preprod-default-web' SINCE 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Errors Overview",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM Transaction SELECT count(*) as 'Total transactions',percentage(count(*), WHERE error IS true) as 'Failed transactions In %', count(*) * percentage(count(*), WHERE error IS true) / 100 as 'Failed transactions' WHERE appName LIKE 'jd-preprod-default-web' SINCE 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "VM Overview",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM Metric SELECT average(apm.service.cpu.usertime.utilization) * 100 as 'Average CPU utilization ', average(apm.service.memory.physical) as 'Average physical memory' WHERE appName like '${service.appName}' WHERE appName LIKE 'jd-preprod-default-web' SINCE 1 WEEK AGO"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Error Overview",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM Transaction SELECT count(*) as 'Total transactions', percentage(count(*), WHERE error IS true) as 'Failed transactions in %', count(*) * percentage(count(*), WHERE error IS true) / 100 as 'Failed transactions' WHERE appName LIKE 'jd-preprod-default-web' SINCE 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Top 10 Failed Transactions",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "Select percentage(count(*), WHERE error IS true) from Transaction WHERE appName LIKE 'jd-preprod-default-web' SINCE last week"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Transactions Errors Today Compared With 1 Week Ago",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT count(*) from Transaction where response.status = '404' and appName LIKE 'jd-preprod-default-web' TIMESERIES 10 minutes since today COMPARE WITH 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Latest Error",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM TransactionError SELECT latest(timestamp) as 'Latest error' WHERE appName LIKE 'jd-preprod-default-web' SINCE last week"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Transaction Errors Day By Day",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM TransactionError SELECT count(*), percentage(count(*), WHERE error IS true) WHERE appName LIKE 'jd-preprod-default-web' FACET dateOf(timestamp) SINCE 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "CPU Utilization",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'jd-preprod-default-web' SINCE 30 minutes ago TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Average Physical Memory",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(apm.service.memory.physical) FROM Metric WHERE appName like 'jd-preprod-default-web' SINCE 30 minutes ago TIMESERIES"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Transactions Overview",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM Transaction SELECT count(*), average(duration) as 'Average duration (s)', percentile(duration, 90) as 'Slowest 10%/duration' WHERE appName LIKE 'jd-preprod-default-web' SINCE 1 WEEK AGO"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Most Popular Transactions",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT count(*) FROM Transaction WHERE appName LIKE 'jd-preprod-default-web' SINCE last week EXTRAPOLATE FACET name"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Adpex Score Today Compared With 1 Week Ago",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT apdex(duration,t: 0.4) FROM Transaction WHERE appName LIKE 'jd-preprod-default-web' TIMESERIES SINCE today COMPARE WITH 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Throughput Today Compared With 1 Week Ago",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT count(*) from Transaction WHERE appName LIKE 'jd-preprod-default-web' TIMESERIES 1 hour since today COMPARE WITH 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Average Transaction Duration Today Compared With 1 Week Ago",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(duration) FROM Transaction WHERE appName LIKE 'jd-preprod-default-web' TIMESERIES SINCE today COMPARE WITH 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "yAxisRight": {
+              "zero": true
+            }
+          }
+        },
+        {
+          "title": "Top 5 Slowest Transactions",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT max(duration) FROM Transaction WHERE (transactionType = 'Web') WHERE appName LIKE 'jd-preprod-default-web' SINCE 1 week ago LIMIT 5 EXTRAPOLATE FACET name"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Transactions Day By Day",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "FROM Transaction SELECT count(*), percentage(count(*), WHERE error IS false) WHERE appName LIKE 'jd-preprod-default-web' FACET dateOf(timestamp) SINCE 1 week ago"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        },
+        {
+          "title": "Transaction Duration Overview",
+          "layout": {
+            "column": 0,
+            "row": 0,
+            "width": 3,
+            "height": 4
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountIds": [
+                  4339676
+                ],
+                "query": "SELECT average(duration), max(duration), min(duration) FROM Transaction WHERE appName LIKE 'jd-preprod-default-web' FACET name"
+              }
+            ],
+            "platformOptions": {
+              "ignoreTimeRange": false
+            },
+            "facet": {
+              "showOtherSeries": false
+            },
+            "thresholds": []
+          }
+        }
+      ]
+    }
+  ]
+}

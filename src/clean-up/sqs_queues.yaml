@@ -1,0 +1,8 @@
+- name : Sent/Received messages
+  query : SELECT sum(`provider.numberOfMessagesReceived.Sum`) AS `Received messages`, sum(`provider.numberOfMessagesSent.Sum`) AS `Sent messages` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO
+- name : Approximate number of visible messages
+  query : SELECT average(`provider.approximateNumberOfMessagesVisible.Average`) AS `Available messages` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO
+- name : Approximate age of oldest message
+  query : SELECT average(`provider.approximateAgeOfOldestMessage.Average`) AS `Age of oldest message (s)` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO
+- name : Deleted messages
+  query : SELECT sum(`provider.numberOfMessagesDeleted.Sum`) AS `Deleted messages` FROM QueueSample WHERE ((`provider` = 'SqsQueue') AND (entityGuid = 'MTA0MTM1NXxJTkZSQXxOQXw0MjY0OTI4NzI5NTAxMjc4NDM')) TIMESERIES AUTO

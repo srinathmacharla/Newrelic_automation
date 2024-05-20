@@ -1,0 +1,27 @@
+- name : Pod readiness & status
+  query : SELECT min(isReady) AS `Ready`, min(isScheduled) AS `Scheduled` FROM K8sPodSample WHERE (entityGuid = '${service.entityGuid}') TIMESERIES AUTO
+- name : Pod network metrics
+  query : SELECT (average(net.rxBytesPerSecond) / 1000) AS `Received KBps`, (average(net.txBytesPerSecond) / 1000) AS `Transmitted KBps`, average(net.errorsPerSecond) AS `Errors / sec` FROM K8sPodSample WHERE (entityGuid = '${service.entityGuid}') TIMESERIES AUTO
+- name : Container Resources
+  query : "from(SELECT latest(if(NOT (memoryRequestedBytes IS NULL), memoryRequestedBytes / 1024 / 1024, 'Not Set')) AS `mr`, latest(if(NOT (memoryLimitBytes IS NULL), memoryLimitBytes / 1024 / 1024, 'Not Set')) AS `ml`, latest(if(NOT (cpuRequestedCores IS NULL), cpuRequestedCores, 'Not Set')) AS `cr`, latest(if(NOT (cpuLimitCores IS NULL), cpuLimitCores, 'Not Set')) AS `cl`, sum(restartCountDelta) AS `rcd`, latest(restartCount) AS `rcc`, latest(status) AS `status`, latest(reason) AS `reason` FROM K8sContainerSample WHERE clusterName = '${service.clusterName}' AND namespaceName = '${service.namespaceName}' AND podName = '${service.podName}' FACET containerName AS `containername`) select latest(mr) as 'Mem Req (MiB)', latest(ml) as 'Mem Limit (MiB)', latest(cr) as 'CPU Req (cores)', latest(cl) as 'CPU Limit (cores)', latest(concat(string(rcd, precision: 1), ' / ', string(rcc, precision: 1))) as 'Restarts (delta / cumul.)', latest(concat(status, ' / ', if(reason is null, 'None', reason))) as 'Status / Reason' facet containername as 'Container'"
+- name : CPU usage (cores)
+  query : SELECT average(cpuUsedCores) AS `CPU usage (cores)` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET containerName TIMESERIES AUTO
+- name : CPU utilization
+  query : SELECT (average(cpuCoresUtilization) / 100) AS `CPU utilization (%)` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET containerName TIMESERIES AUTO
+- name : CPU throttling
+  query : SELECT (sum(containerCpuCfsThrottledPeriodsDelta) / sum(containerCpuCfsPeriodsDelta)) AS `CPU throttling (%)` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET containerName TIMESERIES AUTO
+- name : Memory usage
+  query :  SELECT average(memoryWorkingSetBytes) AS `Memory usage (bytes)` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET containerName TIMESERIES AUTO          
+- name : Memory utilization
+  query : SELECT (average(memoryWorkingSetUtilization) / 100) AS `Memory utilization (%)` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET containerName TIMESERIES AUTO
+- name : Filesystem usage
+  query : SELECT max(fsUsedBytes) AS `Filesystem usage (bytes)` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET tuple(podName, containerName) LIMIT 100 TIMESERIES AUTO
+- name : Filesystem utilization
+  query : SELECT (max(fsUsedPercent) / 100) AS `Filesystem utilization (%)` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET tuple(podName, containerName) LIMIT 100 TIMESERIES AUTO
+- name : Restart count
+  query : SELECT sum(restartCountDelta) AS `Restart count` FROM K8sContainerSample WHERE (((clusterName = '${service.clusterName}') AND (namespaceName = '${service.namespaceName}')) AND (podName = '${service.podName}')) FACET containerName TIMESERIES AUTO
+- name : Kubernetes Warning events
+  query : from InfrastructureEvent select concat(event.involvedObject.kind, ' / ', event.involvedObject.name) as 'Kind / Name', event.message as 'Message', event.reason as 'Reason', if(event.count is not null, event.count, event.series.count) as 'Event Count', event.lastTimestamp as 'Last Timestamp', event.firstTimestamp as 'First Timestamp' where clusterName = '${service.clusterName}' and event.metadata.namespace = '${service.namespaceName}' and category = 'kubernetes' and (event.involvedObject.name = '${service.podName}' OR event.involvedObject.name like '${service.podName}') and event.type = 'Warning' limit 100
+- name : Warning Events
+  query : from InfrastructureEvent select count(concat(event.type, ':', event.reason)) as 'Reason' where clusterName = '${service.clusterName}' and event.metadata.namespace = '${service.namespaceName}' and category = 'kubernetes' and (event.involvedObject.name = '${service.podName}' OR event.involvedObject.name like '${service.podName}') and event.type = 'Warning' facet event.reason TIMESERIES limit 100
+

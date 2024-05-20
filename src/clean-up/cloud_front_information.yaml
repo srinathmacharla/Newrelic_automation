@@ -1,0 +1,10 @@
+- name : Requests
+  query : SELECT sum(`provider.requests.Sum`) AS `Requests` FROM LoadBalancerSample WHERE ((`provider` = '${service.provider}') AND (entityGuid = '${service.entityGuid}')) TIMESERIES AUTO
+- name : Error rate (%)
+  query : SELECT average(`provider.error4xxErrorRate.Average`) AS `4xx Errors`, average(`provider.error5xxErrorRate.Average`) AS `5xx Errors` FROM LoadBalancerSample WHERE ((`provider` = '${service.provider}') AND (entityGuid = '${service.entityGuid}')) TIMESERIES AUTO
+- name : Traffic (bytes)
+  query : SELECT sum(`provider.bytesDownloaded.Sum`) AS `Download`, sum(`provider.bytesUploaded.Sum`) AS `Upload` FROM LoadBalancerSample WHERE ((`provider` = '${service.provider}') AND (entityGuid = '${service.entityGuid}')) TIMESERIES AUTO
+
+
+
+
