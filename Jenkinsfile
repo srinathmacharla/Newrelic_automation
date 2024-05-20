@@ -9,7 +9,7 @@ pipeline {
         
         stage('Build TypeScript') {
             steps {
-                dir('src/newrelic_typescript') {
+                dir('src') {
                     sh 'node main.js'
                 }
             }
@@ -17,8 +17,8 @@ pipeline {
 
         stage('Dashboard apply') {
             steps {
-                dir('src/newrelic_terraform') {
-                    sh 'terraform apply -auto-approve'
+                dir('src') {
+                    sh 'terraform apply'
                 }
             } 
         }
