@@ -5,6 +5,13 @@ pipeline {
         terraform 'terraform auto' 
     }
     stages {
+        stage('Install Node.js Dependencies') {
+            steps {
+                dir('src') {
+                    sh 'npm install'
+                }
+            }
+        }
         stage('Build TypeScript') {
             steps {
                 dir('src') {
@@ -12,19 +19,19 @@ pipeline {
                 }
             }
         }
-    stage('Terraform init') {
+        stage('Terraform init') {
             steps {
                 dir('src') {
                     sh 'terraform init'
                 }
-            } 
+            }
         }
-    stage('Dashboard apply') {
+        stage('Dashboard apply') {
             steps {
                 dir('src') {
                     sh 'terraform apply -auto-approve'
                 }
-            } 
+            }
         }
     }
 }
